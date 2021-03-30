@@ -154,7 +154,7 @@ declare function dts:import($request as map(*)) {
                 else
                     dts:store(tail($response), util:hash($request?parameters?uri, "md5") || ".xml")
             return
-                roaster:response(201, "application/json",
+                router:response(201, "application/json",
                     map {
                         "path": substring-after($stored, $config:data-root || "/")
                     }
