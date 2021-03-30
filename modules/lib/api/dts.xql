@@ -157,7 +157,7 @@ declare function dts:import($request as map(*)) {
                 router:response(201, "application/json",
                     map {
                         "path": substring-after($stored, $config:data-root || "/")
-                    }, ()
+                    }
                 )
         )
         else
