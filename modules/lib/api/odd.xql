@@ -151,7 +151,7 @@ declare function oapi:delete-odd($request as map(*)) {
         if (doc-available($path)) then
             let $deleted := xmldb:remove($config:odd-root, $request?parameters?odd)
             return
-                router:response(410, ())
+                roaster:response(410, ())
         else
             error($errors:NOT_FOUND, "Document " || $path || " not found")
 };
@@ -199,7 +199,7 @@ declare function oapi:create-odd($request as map(*)) {
     let $stored := xmldb:store($config:odd-root, $request?parameters?odd || ".odd", $parsed, "text/xml")
     return (
         oapi:compile($request?parameters?odd),
-        router:response(201, "application/json", map {
+        roaster:response(201, "application/json", map {
             "path": $stored
         })
     )
@@ -223,12 +223,12 @@ return
         let $report := oapi:recompile($request)
 
         return 
-            router:response(201, "application/json", map {
+            roaster:response(201, "application/json", map {
                 "path": $stored,
                 "report": $report
             })
     else 
-            router:response(401, "application/json", map {
+            roaster:response(401, "application/json", map {
                 "status": "denied",
                 "path": $request?parameters?odd,
                 "report": "[You don't have write access to " || $root || "/" || $request?parameters?odd || "]"
@@ -347,7 +347,7 @@ declare function oapi:get-odd($request as map(*)) {
     let $root := head(($request?parameters?root, $config:odd-root))
     return
         if (exists($request?parameters?ident)) then
-            router:response(
+            roaster:response(
                 200,
                 "application/json",
                 oapi:find-spec($request?parameters?odd, $root, $request?parameters?ident)
@@ -359,7 +359,7 @@ declare function oapi:get-odd($request as map(*)) {
                     let $odd := doc($path)
                     return
                         if ("application/json" = router:accepted-content-types()) then
-                            router:response(200, "application/json", oapi:to-json($odd, $path))
+                            roaster:response(200, "application/json", oapi:to-json($odd, $path))
                         else
                             $odd
                 else
