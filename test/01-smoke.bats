@@ -29,7 +29,7 @@
 # This is only meaningful for unexploded containers
 @test "logs show package deployment" {
   skip
-  result=$(docker logs exist | grep -ow -c 'https://e-editiones.org/apps/tei-publisher')
+  result=$(docker logs exist | grep -ow -c 'http://existsolutions.com/apps/tei-publisher')
   expected=4
   [ "$result" -eq $expected ]
 }
